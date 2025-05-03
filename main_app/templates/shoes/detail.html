@@ -1,0 +1,86 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/shoes/shoe-detail.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<section class="shoe-container">
+  <div class="shoe-img">
+    <img src="{% static 'images/louboutinminnie.webp' %}" alt="A crystal covered low heel" />
+  </div>
+  <div class="shoe-details">
+    <h1 class="card-title">{{ shoe.brand }}</h1>
+    <p>
+        {% if shoe.style|first|lower in 'aeiou' %}
+          An
+        {% else %}
+          A
+        {% endif %}
+        {{ shoe.style }}
+      </p>
+      <p><small>{{ shoe.description }} for {{ shoe.occasion }} wear</small></p>
+
+      <div class="shoe-actions">
+        <a href="{% url 'shoe-update' shoe.id %}" class="btn btn-primary">Edit</a>
+        <form action="{% url 'shoe-delete' shoe.id %}">
+          {% csrf_token %}
+          <input type="submit" value="Delete" class="btn btn-danger" />
+        </form>
+    </div>
+  </div>
+</section>
+<div class="outfits-bags-container">
+  <section class="outfits">
+    <div class="subsection-title">
+      <h2>Outfits</h2>
+      <img
+        src="{% static 'images/jil-clogs.webp' %}"
+        alt="A pair of furry clogs"
+      />
+      <img 
+        src="{% static 'images/valentino-flats.webp' %}" 
+        alt="A pair of flat floral sandals" 
+      />
+      <img
+        src="{% static 'images/rowzip1.webp' %}"
+        alt="An ivory pair of boots with a zipper"
+      />
+    </div>
+
+    <h3>Add an Outfit</h3>
+    <div class="subsection-content">
+      {% for outfit in outfits %}
+      <div class="outfit-container">
+        <p> {{ outfit.name }} </p>
+      {% endfor %}
+      
+      <form 
+        action="{% url 'add-outfit' shoe.id %}"
+        method="post" 
+        class="subsection-content" 
+        autocomplete="off">
+        {% csrf_token %} 
+        {{ outfit_form.as_p }}
+        <button type="submit" class="btn submit">Add Outfit</button>
+      </form>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Outfit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for outfit in shoe.outfit_set.all %}
+            <tr>
+              <td>{{outfit.get_outfit_display}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

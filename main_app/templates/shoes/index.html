@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{% static 'css/shoes/shoe-detail.css' %}"
+/>
+{% endblock %} {% block content %}
+
+<section class="page-header">
+  <h1>Shoe List</h1>
+  <img
+    src="{% static 'images/alaia-studded.webp' %}"
+    alt="Black Alaia low boots"
+  />
+  <img
+    src="{% static 'images/chloe-strass-heels.webp' %}"
+    alt="Black Chloe heels with strass and fringe"
+  />
+  <img
+    src="{% static 'images/dries-curved-heels.webp' %}"
+    alt="Lavender DVN heels with curved heel"
+  />
+  <img
+    src="{% static 'images/jil-clogs.webp' %}"
+    alt="Calfhair Jil Sander clogs"
+  />
+</section>
+
+<section class="card-container">
+  {% for shoe in shoes %}
+<div class="card">
+  <a href="{% url 'shoe-detail' shoe.id %}">
+    <div class="card-content">
+      <div class="card-img-container">
+        <img
+          src="{% static 'images/jil-leaf-flats.webp' %}"
+          alt="Jil Sander leaf flats"
+        />
+      </div>
+      <h2 class="card-title">{{ shoe.brand }}</h2>
+      <p>
+        {% if shoe.style|first|lower in 'aeiou' %}
+          An
+        {% else %}
+          A
+        {% endif %}
+        {{ shoe.style }}
+      </p>
+      <p><small>{{ shoe.description }}</small></p>
+    </div>
+  </a>
+</div>
+{% endfor %}
+</section>
+
+{% endblock %}

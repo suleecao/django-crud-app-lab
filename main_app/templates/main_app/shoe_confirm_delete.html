@@ -1,0 +1,18 @@
+{% extends 'base.html' %}  
+{% load static %} 
+{% block content %}
+
+<div class="page-header">
+  <h1>Delete this Shoe?</h1>
+  <img src="{% static 'images/rick-megalace.webp' %}" alt="A sneaker with many laces" />
+</div>
+
+<h2>Are you sure you want to delete {{ shoe.brand }}?</h2>
+
+<form action="" method="post" class="form">
+  {% csrf_token %}
+  <a href="{% url 'shoe-detail' shoe.id %}" class="btn secondary">Cancel</a>
+  <button type="submit" class="btn danger">Yes - Delete!</button>
+</form>
+
+{% endblock %}
